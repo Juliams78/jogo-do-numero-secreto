@@ -1,5 +1,8 @@
+// para habilitar a voz responsiva quando exibir texto na tela basta descomentar a linha 16
+// o número máximo do jogo pode ser alterado na linha 5
+
 let listaDeNumerosSorteados = [];
-let numeroLimite = 10;
+let numeroMaximoDoJogo = 100;
 let numeroSecreto = gerarNumeroAleatorio();
 let tentativas = 1;
 
@@ -9,11 +12,12 @@ exibirMensagemInicial();
 function exibirTextoNaTela(tag, texto){
     let campo = document.querySelector(tag); // document.querySelector eu indico a tag que será abordada
     campo.innerHTML = texto; // innerHTML diz que o conteúdo daquela tag (o que está dentro, inner) será alterado
-    responsiveVoice.speak(texto, 'Brazilian Portuguese Female', {rate:1.2});
+    
+    //responsiveVoice.speak(texto, 'Brazilian Portuguese Female', {rate:1.2})
 }
 function exibirMensagemInicial(){
     exibirTextoNaTela('h1', 'Jogo do Número Secreto' );
-    exibirTextoNaTela('p', 'Escolha um número entre 1 e 10');
+    exibirTextoNaTela('p', `Escolha um número entre 1 e ${numeroMaximoDoJogo}:`);
 }
 
 function verificarChute(){
@@ -21,16 +25,16 @@ function verificarChute(){
     if(chute == numeroSecreto){
         let palavraTentativa =  tentativas > 1 ? 'tentativas' : 'tentativa';
         
-        exibirTextoNaTela('h1', 'Acertou!!!');
+        exibirTextoNaTela('h1', 'Parabéns!!!');
         exibirTextoNaTela('p', `Você descobriu o número secreto com ${tentativas} ${palavraTentativa}!`);
         
         document.getElementById('chutar').setAttribute('disabled', true);
         document.getElementById('reiniciar').removeAttribute('disabled'); // para habilitar o botão que começa desabilitado no HTML
     } else{
         if(chute > numeroSecreto){
-            exibirTextoNaTela('p', 'O número secreto é menor');
+            exibirTextoNaTela('p', `O número secreto é MENOR que o chute (${chute})`);
         }else{
-            exibirTextoNaTela('p', 'O número secreto é maior');
+            exibirTextoNaTela('p', `O número secreto é MAIOR que o chute (${chute})`);
         }
         tentativas++;
     }
@@ -38,10 +42,10 @@ function verificarChute(){
 }
 
 function gerarNumeroAleatorio(){
-     let numeroEscolhido = parseInt(Math.random() * numeroLimite + 1);
+     let numeroEscolhido = parseInt(Math.random() * numeroMaximoDoJogo + 1);
      let quantidadeDeElementosNaLista = listaDeNumerosSorteados.length;
 
-     if(quantidadeDeElementosNaLista == numeroLimite){
+     if(quantidadeDeElementosNaLista == numeroMaximoDoJogo){
         listaDeNumerosSorteados = [];
      }
 
@@ -63,6 +67,7 @@ function reiniciarJogo(){
     limparCampo();
     tentativas = 1;
     exibirMensagemInicial();
+    //alterando os botões que devem estar habilitado e desabilitado
     document.getElementById('chutar').removeAttribute('disabled');
     document.getElementById('reiniciar').setAttribute('disabled', true);
 }
