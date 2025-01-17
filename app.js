@@ -2,7 +2,7 @@
 // o número máximo do jogo pode ser alterado na linha 5
 
 let listaDeNumerosSorteados = [];
-let numeroMaximoDoJogo = 100;
+let numeroMaximoDoJogo = 10;
 let numeroSecreto = gerarNumeroAleatorio();
 let tentativas = 1;
 
